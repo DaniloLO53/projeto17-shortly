@@ -2,23 +2,45 @@ import { INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from "../utils/statusCode.uti
 import bcrypt from 'bcrypt';
 import { db } from "../config/database.connection.js";
 
-async function signin(request, response, next) {
-  const { password, email } = request.body;
-  const token = response.locals.token;
+async function getTokenAndPassword(request, response, next) {
+  const { email } = request.body;
 
   try {
-    const results = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-    const user = results.rows[0];
-    if (!user) {
+    const usersResults = await db.query(`SELECT users.password, tokens.value
+      FROM users
+      JOIN tokens
+        ON tokens.user_id = users.id
+      WHERE email = $1`,
+      [email]);
+    const results = usersResults.rows;
+    const queryData = results[0];
+
+    if (results.length === 0) {
       return response.sendStatus(UNAUTHORIZED);
     }
 
-    const passwordHash = bcrypt.compareSync(password, user.password);
-    if (!passwordHash | !user) {
+    response.locals.queryData = queryData;
+
+    next();
+  } catch (error) {
+    console.log('Error on server: ', error);
+
+    return response.sendStatus(INTERNAL_SERVER_ERROR);
+  }
+};
+
+async function signin(request, response, next) {
+  const { password } = request.body;
+
+  try {
+    const queryData = response.locals.queryData;
+
+    const passwordHash = bcrypt.compareSync(password, queryData.password);
+    if (!passwordHash) {
       return response.sendStatus(UNAUTHORIZED);
     }
 
-    return response.status(OK).send(token);
+    return response.status(OK).send(queryData.value);
   } catch (error) {
     console.log('Error on server: ', error);
 
@@ -27,5 +49,6 @@ async function signin(request, response, next) {
 };
 
 export {
-  signin
+  signin,
+  getTokenAndPassword
 };

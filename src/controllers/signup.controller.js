@@ -12,10 +12,7 @@ import {
 
 async function signup(request, response) {
   const { email, password, name } = request.body;
-
-  const token = response.locals.token
   const passwordHashed = bcrypt.hashSync(password, 10);
-  console.log(token);
 
   try {
     const findUser = await db.query(`SELECT * FROM users WHERE "email" = $1`,
@@ -30,7 +27,7 @@ async function signup(request, response) {
     VALUES ($1, $2, $3)`,
       [name, email, passwordHashed]);
 
-    return response.status(CREATED).send('token');
+    return response.sendStatus(CREATED);
   } catch (error) {
     console.log('Error on server: ', error);
 
