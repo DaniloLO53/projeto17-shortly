@@ -1,6 +1,6 @@
-CREATE TABLE tokens
+CREATE TABLE sessions
 (
   id serial PRIMARY KEY,
-  value text NOT NULL,
-  user_id integer NOT NULL REFERENCES users(id)
+  token text NOT NULL,
+  user_id integer REFERENCES users(id)
 );
