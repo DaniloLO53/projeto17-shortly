@@ -1,5 +1,5 @@
 import express from 'express';
-import shortenRouter from './sign/shorten.route.js';
+import shortenRouter from './shorten/shorten.route.js';
 import signinRouter from './sign/signin.route.js';
 import signupRouter from './sign/signup.route.js';
 

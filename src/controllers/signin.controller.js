@@ -41,7 +41,7 @@ async function signin(request, response, next) {
       return response.sendStatus(UNAUTHORIZED);
     }
 
-    return response.status(OK).send(queryData.token);
+    return response.status(OK).send({ token: queryData.token });
   } catch (error) {
     console.log('Error on server: ', error);
 

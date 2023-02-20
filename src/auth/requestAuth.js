@@ -1,10 +1,29 @@
+import { db } from "../config/database.connection.js";
+import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "../utils/statusCode.utils.js";
+
 async function requestAuth(request, response, next) {
-  const { Authorization } = request.headers;
-  const token = Authorization?.replace('Bearer ', '');
+  const { authorization } = request.headers;
+
+  console.log('token head:', authorization)
+  const token = authorization?.replace('Bearer ', '');
+
 
   try {
+    const tokenResults = await db.query(`
+    SELECT user_id
+    FROM sessions
+    WHERE token = $1
+    `, [token]);
+    const tokens = tokenResults.rows;
 
-    next();
+    if (tokens.length > 0) {
+      response.locals.user_id = tokens[0].user_id;
+
+      return next();
+    }
+
+    return response.sendStatus(UNAUTHORIZED);
+
   } catch (error) {
     console.log('Error on server: ', error);
 
