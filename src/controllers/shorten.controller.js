@@ -11,8 +11,8 @@ async function shorten(request, response) {
 
   try {
     await db.query(`
-      INSERT INTO shortens (url, shortUrl, user_id)
-      VALUES ($1, $2, $3)
+      INSERT INTO shortens (url, shortUrl, user_id, visitcount)
+      VALUES ($1, $2, $3, 0)
     `, [url, shortUrl, user_id]);
 
     const resultsFromShortens = await db.query(`

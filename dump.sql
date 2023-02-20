@@ -7,7 +7,8 @@ CREATE TABLE sessions
 CREATE TABLE shortens
 (
   id serial PRIMARY KEY,
-  short_url text NOT NULL,
+  shortUrl text NOT NULL,
   url text NOT NULL,
+  visitCount INTEGER NOT NULL,
   user_id integer REFERENCES users(id)
 );
