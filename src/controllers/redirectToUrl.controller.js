@@ -2,16 +2,17 @@ import { db } from "../config/database.connection.js";
 import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../utils/statusCode.utils.js";
 
 async function increaseVisitants(url) {
-  ++count;
   await db.query(`
     UPDATE shortens
     SET visitcount = visitcount + 1
-    WHERE shorturl = $2
+    WHERE shorturl = $1
   `, [url]);
 };
 
 async function redirectToUrl(request, response, next) {
   const { shortUrl } = request.params;
+
+  console.log('Param: ', shortUrl)
 
   try {
     const resultsFromShortens = await db.query(`
@@ -22,7 +23,7 @@ async function redirectToUrl(request, response, next) {
     const responseObj = resultsFromShortens.rows[0];
 
     if (responseObj) {
-      increaseVisitants();
+      increaseVisitants(shortUrl);
       return response.redirect(responseObj.url);
     }
 
