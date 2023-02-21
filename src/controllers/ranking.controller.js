@@ -15,8 +15,9 @@ async function ranking(request, response, next) {
     INNER JOIN users
       ON users.id = user_id
       GROUP BY users.id, users.name
+    ORDER BY visitcount DESC
+    LIMIT 10
     `);
-    console.log(results);
 
     return response.status(OK).send(results.rows);
   } catch (error) {

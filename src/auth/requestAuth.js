@@ -3,10 +3,7 @@ import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "../utils/statusCode.utils.j
 
 async function requestAuth(request, response, next) {
   const { authorization } = request.headers;
-
-  console.log('token head:', authorization)
   const token = authorization?.replace('Bearer ', '');
-
 
   try {
     const tokenResults = await db.query(`
