@@ -12,8 +12,6 @@ async function increaseVisitants(url) {
 async function redirectToUrl(request, response, next) {
   const { shortUrl } = request.params;
 
-  console.log('Param: ', shortUrl)
-
   try {
     const resultsFromShortens = await db.query(`
       SELECT url, visitCount

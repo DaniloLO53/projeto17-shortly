@@ -5,8 +5,6 @@ async function myShortens(request, response, next) {
   const { authorization } = request.headers;
   const token = authorization?.replace('Bearer ', '');
 
-  console.log('Auth: ', token)
-
   try {
     const resultsFromShortenedUrls = await db.query(`
       SELECT
@@ -17,21 +15,20 @@ async function myShortens(request, response, next) {
       WHERE sessions.token = $1
     `, [token]);
 
-    console.log(resultsFromShortenedUrls.rows)
-
     const resultsFromTotalVisits = await db.query(`
       SELECT users.id, users.name, SUM(visitcount) AS visitcount
       FROM (
         SELECT
-        visitcount, sessions.user_id
+        visitcount, shortens.user_id AS user_id
         FROM shortens
-        JOIN sessions
-          ON sessions.token = $1
+        JOIN users
+          ON users.id = shortens.user_id
       ) AS total
-      JOIN sessions
-        ON sessions.token = $1
       JOIN users
-        ON users.id = sessions.user_id
+        ON users.id = total.user_id
+      JOIN sessions
+        ON sessions.user_id = total.user_id
+      WHERE sessions.token = $1
       GROUP BY users.id, users.name
     `, [token]);
 

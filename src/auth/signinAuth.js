@@ -65,7 +65,6 @@ async function signinAuth(request, response, next) {
     const userId = resultsFromUsers.rows[0]?.id;
 
     const token = createToken(userId);
-    console.log('Token: ', token)
 
     response.locals.token = token;
 
