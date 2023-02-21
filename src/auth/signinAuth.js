@@ -3,6 +3,7 @@ import { db } from '../config/database.connection.js';
 import { DAY_TO_MILLISECONDS } from '../utils/constants.utils.js';
 import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from '../utils/statusCode.utils.js';
 import dotenv from 'dotenv';
+import { response } from 'express';
 
 dotenv.config();
 
@@ -26,7 +27,10 @@ async function getId(email) {
   try {
     const resultsFromUsers = await db
       .query(`SELECT id FROM users WHERE email = $1 `, [email]);
-    const userId = resultsFromUsers.rows[0].id;
+
+    if (resultsFromUsers.rows.length === 0) return response.sendStatus(UNAUTHORIZED);
+
+    const userId = resultsFromUsers.rows[0]?.id;
 
     return userId;
   } catch (error) {
@@ -53,7 +57,12 @@ async function signinAuth(request, response, next) {
   const days = 3;
 
   try {
-    const userId = await getId(email);
+    const resultsFromUsers = await db
+      .query(`SELECT id FROM users WHERE email = $1 `, [email]);
+
+    if (resultsFromUsers.rows.length === 0) return response.sendStatus(UNAUTHORIZED);
+
+    const userId = resultsFromUsers.rows[0]?.id;
 
     const token = createToken(userId);
     console.log('Token: ', token)
