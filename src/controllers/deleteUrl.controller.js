@@ -21,8 +21,6 @@ async function deleteUrl(request, response, next) {
     `, [id]);
     const responseObj = idFromShortens.rows[0];
 
-    console.log(responseObj.user_id, user_id);
-
     if (responseObj) {
       if (responseObj.user_id === user_id) {
         await db.query(`
