@@ -33,6 +33,26 @@ CREATE TABLE public.sessions (
 
 
 --
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
 -- Name: shortens; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -47,6 +67,26 @@ CREATE TABLE public.shortens (
 
 
 --
+-- Name: shortens_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.shortens_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: shortens_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.shortens_id_seq OWNED BY public.shortens.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -57,6 +97,47 @@ CREATE TABLE public.users (
     password text NOT NULL,
     createdat timestamp without time zone DEFAULT now() NOT NULL
 );
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: shortens id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shortens ALTER COLUMN id SET DEFAULT nextval('public.shortens_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -75,6 +156,30 @@ CREATE TABLE public.users (
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.users VALUES (1, 'Xavier', 'xavier@driven.com.br', '$2b$10$DISQA09iT9YeD9hiINT6fOFS5YadhHxMT/naVyIur6.cdXtyj9dcm', '2023-02-27 08:57:21.072156');
+INSERT INTO public.users VALUES (2, 'Breno Morira', 'gustavo.saraiva@driven.com.br', '$2b$10$FyG6pLAouLnBj.8tOXQM.uMKeVt672/7sBzsD.4u1AvN.fHmrryMa', '2023-02-27 08:58:11.869049');
+INSERT INTO public.users VALUES (3, 'Breno Morira', 'breno.saraiva@driven.com.br', '$2b$10$rF7kIznw6nqyRsFUdyUKROg320UtJ9JH3bo/vabRpKh3Bd1irzrae', '2023-02-27 08:59:01.548898');
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
+
+
+--
+-- Name: shortens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.shortens_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --
