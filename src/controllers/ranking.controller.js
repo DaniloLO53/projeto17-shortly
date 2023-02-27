@@ -4,7 +4,7 @@ import { INTERNAL_SERVER_ERROR, OK } from "../utils/statusCode.utils.js";
 async function ranking(request, response, next) {
   try {
     const results = await db.query(`
-    SELECT users.id, users.name, COUNT(url) AS linksCount, SUM(visitcount) AS visitcount
+    SELECT users.id, users.name, COUNT(url) AS "linksCount", SUM(visitcount) AS "visitCount"
     FROM (
       SELECT
       visitcount, shortens.user_id AS user_id, url
@@ -14,7 +14,7 @@ async function ranking(request, response, next) {
     ) AS total
     JOIN users
       ON users.id = user_id
-      GROUP BY users.id, users.name
+      GROUP BY users.id, users.name, total.visitcount
     ORDER BY visitcount DESC
     LIMIT 10
     `);
