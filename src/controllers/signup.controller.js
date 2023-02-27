@@ -18,6 +18,8 @@ async function signup(request, response) {
     const findUser = await db.query(`SELECT * FROM users WHERE "email" = $1`,
       [email]);
 
+    console.log(findUser.rowCount)
+
     if (
       !email
     ) return response.sendStatus(BAD_REQUEST);
