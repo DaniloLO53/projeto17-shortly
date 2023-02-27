@@ -3,7 +3,6 @@ import { db } from '../config/database.connection.js';
 import { DAY_TO_MILLISECONDS } from '../utils/constants.utils.js';
 import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from '../utils/statusCode.utils.js';
 import dotenv from 'dotenv';
-import { response } from 'express';
 
 dotenv.config();
 
@@ -23,23 +22,6 @@ function createToken(id) {
   }
 }
 
-async function getId(email) {
-  try {
-    const resultsFromUsers = await db
-      .query(`SELECT id FROM users WHERE email = $1 `, [email]);
-
-    if (resultsFromUsers.rows.length === 0) return response.sendStatus(UNAUTHORIZED);
-
-    const userId = resultsFromUsers.rows[0]?.id;
-
-    return userId;
-  } catch (error) {
-    console.log('Error on server: ', error);
-
-    throw new Error(error);
-  }
-};
-
 async function createSession(id, token) {
   try {
     await db
@@ -53,7 +35,6 @@ async function createSession(id, token) {
 
 async function signinAuth(request, response, next) {
   const { email } = request.body;
-  const { jwt } = request.cookies;
   const days = 3;
 
   try {

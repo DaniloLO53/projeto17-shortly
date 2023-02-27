@@ -12,7 +12,7 @@ async function ranking(request, response, next) {
       JOIN users
         ON users.id = shortens.user_id
     ) AS total
-    INNER JOIN users
+    JOIN users
       ON users.id = user_id
       GROUP BY users.id, users.name
     ORDER BY visitcount DESC

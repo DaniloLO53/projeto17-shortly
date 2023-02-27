@@ -12,8 +12,8 @@ const shortenRouter = express.Router();
 
 shortenRouter.post('/urls/shorten', validateShorten, requestAuth, shorten);
 shortenRouter.get('/urls/:id', getUrl);
-shortenRouter.get('/urls/open/:shortUrl', redirectToUrl);
 shortenRouter.delete('/urls/:id', requestAuth, deleteUrl);
+shortenRouter.get('/urls/open/:shortUrl', redirectToUrl);
 shortenRouter.get('/users/me', requestAuth, myShortens);
 shortenRouter.get('/ranking', ranking);
 
