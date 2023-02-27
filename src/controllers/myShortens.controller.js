@@ -8,14 +8,12 @@ async function myShortens(request, response, next) {
   try {
     const resultsFromShortenedUrls = await db.query(`
       SELECT
-      shortens.id, shortens.url, shortens.shorturl, shortens.visitCount as "visitCount"
+      shortens.id, shortens.url, shortens.shorturl AS "shortUrl, shortens.visitCount as "visitCount"
       FROM shortens
       JOIN sessions
         ON sessions.user_id = shortens.user_id
       WHERE sessions.token = $1
     `, [token]);
-
-    console.log(99)
 
     const resultsFromTotalVisits = await db.query(`
       SELECT users.id, users.name, SUM(visitCount) as "visitCount"
