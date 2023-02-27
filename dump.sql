@@ -144,42 +144,42 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.sessions VALUES (1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc3NTAyMDA4LCJleHAiOjE2Nzc3NjEyMDh9.pCe9TFGcol8QfbY3eBrifgYcjBftlffPuV802pF4XP8', 1, '2023-02-27 09:46:48.311507');
 
 
 --
 -- Data for Name: shortens; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.shortens VALUES (1, 'd52f7c86', 'https://reddit.com', 0, 1, '2023-02-27 09:47:18.749171');
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'Xavier', 'xavier@driven.com.br', '$2b$10$DISQA09iT9YeD9hiINT6fOFS5YadhHxMT/naVyIur6.cdXtyj9dcm', '2023-02-27 08:57:21.072156');
-INSERT INTO public.users VALUES (2, 'Breno Morira', 'gustavo.saraiva@driven.com.br', '$2b$10$FyG6pLAouLnBj.8tOXQM.uMKeVt672/7sBzsD.4u1AvN.fHmrryMa', '2023-02-27 08:58:11.869049');
-INSERT INTO public.users VALUES (3, 'Breno Morira', 'breno.saraiva@driven.com.br', '$2b$10$rF7kIznw6nqyRsFUdyUKROg320UtJ9JH3bo/vabRpKh3Bd1irzrae', '2023-02-27 08:59:01.548898');
+INSERT INTO public.users VALUES (1, 'Breno Morira', 'breno.moreira@gmail.com', '$2b$10$JFeqpyZSQHzPaP7f9nRfCusBPsHRkm33nt0nQ/30RBfv.7/b4JCVe', '2023-02-27 09:46:45.25987');
 
 
 --
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.sessions_id_seq', 1, true);
 
 
 --
 -- Name: shortens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.shortens_id_seq', 1, false);
+SELECT pg_catalog.setval('public.shortens_id_seq', 1, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
