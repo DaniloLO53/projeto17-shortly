@@ -3,26 +3,28 @@ import { INTERNAL_SERVER_ERROR, NOT_FOUND, NO_CONTENT, OK, UNAUTHORIZED } from "
 
 async function deleteUrl(request, response, next) {
   const { id } = request.params;
+  const { authorization } = request.headers;
+  const token = authorization?.replace('Bearer ', '');
 
   try {
-    const resultsFromShortens = await db.query(`
-      SELECT *
+    const userFromToken = await db.query(`
+    SELECT user_id
+    FROM sessions
+    WHERE token = $1
+    `, [token]);
+    const user_id = userFromToken.rows[0]?.user_id;
+
+    const idFromShortens = await db.query(`
+      SELECT id, user_id
       FROM shortens
       WHERE id = $1
     `, [id]);
-    const responseObj = resultsFromShortens.rows[0];
+    const responseObj = idFromShortens.rows[0];
+
+    console.log(responseObj.user_id, user_id);
 
     if (responseObj) {
-      const user_idResults = await db.query(`
-      SELECT user_id
-      FROM shortens
-      JOIN users
-        ON shortens.user_id = users.id
-      WHERE shortens.id = $1
-      `, [id]);
-      const user_id = user_idResults.rows[0];
-
-      if (user_id) {
+      if (responseObj.user_id === user_id) {
         await db.query(`
         DELETE
         FROM shortens
