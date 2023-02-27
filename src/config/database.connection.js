@@ -13,6 +13,6 @@ const configDatabase = {
   }),
 };
 
-const connection = new Pool(configDatabase);
+// if (process.env.MODE === "prod") configDatabase.ssl = true;
 
-export default connection;
+export const db = new Pool(configDatabase);
